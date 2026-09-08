@@ -13,6 +13,7 @@ export interface AgentModel {
   tier: number
   reasoning: boolean
   uncensored: boolean
+  pricing?: { input?: number | null; output?: number | null; cached?: number | null }
 }
 
 const TOP_TRAITS: ReadonlyArray<ModelTrait> = ['function_calling_default', 'most_intelligent', 'default']
@@ -59,6 +60,7 @@ export function useAgentModels() {
           recommended: tier === 0,
           tier,
           reasoning: caps.supportsReasoning === true,
+          pricing: (m as any).pricing,
           uncensored: traits.includes('most_uncensored'),
         }
       })

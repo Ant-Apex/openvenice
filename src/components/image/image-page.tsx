@@ -20,7 +20,7 @@ export function ImagePage() {
               tab === t ? 'bg-white text-black' : 'bg-white/[0.03] text-white/20 hover:text-white/40 hover:bg-white/[0.05]',
             )}
           >
-            {t === 'generate' ? 'Generate' : 'Edit / Upscale / BG Remove'}
+            {t === 'generate' ? 'Generate' : 'Edit'}
           </button>
         ))}
       </div>

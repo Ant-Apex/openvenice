@@ -45,16 +45,11 @@ const navGroups: NavGroup[] = [
     label: 'Generate',
     items: [
       { id: 'image', label: 'Image', Icon: ImageIcon },
-      { id: 'audio', label: 'Audio', Icon: AudioIcon },
-      { id: 'music', label: 'Music', Icon: MusicIcon },
-      { id: 'video', label: 'Video', Icon: VideoIcon },
-      { id: 'embeddings', label: 'Embed', Icon: EmbedIcon },
     ],
   },
   {
     label: 'Build',
     items: [
-      { id: 'workflows', label: 'Workflows', Icon: WorkflowIcon },
       { id: 'playground', label: 'Playground', Icon: PlaygroundIcon },
     ],
   },
@@ -213,14 +208,7 @@ export function Sidebar({ mobileOpen, onMobileClose }: Props) {
 
       {!expanded && <div className="hidden md:block flex-1" />}
 
-      {expanded && (
-        <div className="px-3 py-2.5 border-t border-white/[0.04]">
-          <div className="text-[11px] text-white/35 space-y-0.5">
-            <div className="flex justify-between"><span>New chat</span><kbd className="font-mono text-white/50">⌘N</kbd></div>
-            <div className="flex justify-between"><span>Switch tab</span><kbd className="font-mono text-white/50">⌘1-8</kbd></div>
-          </div>
-        </div>
-      )}
+
     </aside>
   )
 }

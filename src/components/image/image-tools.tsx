@@ -89,7 +89,7 @@ export function ImageTools() {
       <div className="w-96 border-r border-white/[0.06] p-6 flex flex-col gap-4 overflow-y-auto shrink-0">
         {/* Tool selector */}
         <div className="flex gap-px bg-white/[0.02] rounded-lg p-0.5 border border-white/[0.04]">
-          {([['edit', 'Edit'], ['upscale', 'Upscale'], ['remove-bg', 'Remove BG']] as const).map(([id, label]) => (
+          {([['edit', 'Edit']] as const).map(([id, label]) => (
             <button key={id} onClick={() => { setTool(id); resetResult() }} className={cn(
               'flex-1 px-2 py-2.5 text-[14px] font-medium rounded-[7px] transition-all duration-150',
               tool === id ? 'bg-white text-black' : 'text-white/25 hover:text-white/45',

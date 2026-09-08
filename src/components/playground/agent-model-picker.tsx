@@ -47,7 +47,7 @@ export function AgentModelPicker({ value, onChange }: Props) {
   const label = isLoading ? 'Loading…' : current?.name || value || 'Pick agent model'
 
   return (
-    <div ref={ref} className="relative w-56 shrink-0">
+    <div ref={ref} className="relative w-40 shrink-0">
       <button
         type="button"
         onClick={() => setOpen(!open)}
@@ -125,7 +125,13 @@ export function AgentModelPicker({ value, onChange }: Props) {
                       {m.uncensored && <Badge tone="rose">Uncensored</Badge>}
                     </div>
                     <div className="text-[11px] text-white/35 mt-1 font-mono truncate">
-                      {m.id}{m.contextTokens ? ` · ${formatCtx(m.contextTokens)} ctx` : ''}
+                      {m.contextTokens ? `${formatCtx(m.contextTokens)} ctx` : ''}
+                      {m.pricing?.input != null && m.pricing?.output != null && (
+                        <span className="text-white/25">
+                          {m.contextTokens ? ' · ' : ''}in ${parseFloat(Number(m.pricing.input).toFixed(2))} · out ${parseFloat(Number(m.pricing.output).toFixed(2))}
+                          {m.pricing.cached != null && ` · cache $${parseFloat(Number(m.pricing.cached).toFixed(2))}`}
+                        </span>
+                      )}
                     </div>
                   </button>
                 ))}

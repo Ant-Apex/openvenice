@@ -139,8 +139,11 @@ export function MessageBubble({ message, onCopy, onDelete, onRegenerate }: Messa
         </svg>
       </div>
       <div className="min-w-0 flex-1">
+        {message.reasoning_content?.includes('__ENCRYPTED_REASONING__') && (
+          <div className="mb-2 text-[11px] italic text-white/25">reasoning · encrypted by venice</div>
+        )}
         {/* Reasoning content (thinking) */}
-        {message.reasoning_content && (
+        {message.reasoning_content && !message.reasoning_content.includes('__ENCRYPTED_REASONING__') && (
           <div className="mb-2">
             <button
               onClick={() => setReasoningOpen(!reasoningOpen)}

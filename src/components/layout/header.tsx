@@ -1,5 +1,7 @@
+import { useEffect, useState } from 'react'
 import { useSettingsStore } from '../../stores/settings-store'
 import { useModels } from '../../hooks/use-models'
+import { BASE_URL } from '../../lib/venice-client'
 import { useAuthStore } from '../../stores/auth-store'
 import { Select } from '../ui/select'
 import { StatusDot } from '../ui/shared'
@@ -37,6 +39,38 @@ const tabSubtitles: Record<string, string> = {
 
 const noModelSelector = new Set(['video', 'workflows', 'playground'])
 
+function BalanceChip() {
+  const apiKey = useAuthStore((s) => s.apiKey)
+  const baseUrl = BASE_URL
+  const [bal, setBal] = useState<{ avail: string; sess: string } | null>(null)
+  useEffect(() => {
+    if (!apiKey || !baseUrl) { setBal(null); return }
+    let dead = false
+    const load = async () => {
+      try {
+        const r = await fetch(`${baseUrl.replace(/\/$/, '')}/balance`, { headers: { Authorization: `Bearer ${apiKey}` } })
+        const j = await r.json()
+        if (dead || !j?.balance) return
+        setBal({
+          avail: Number(j.balance.availableUsdc ?? 0).toFixed(2),
+          sess: Number(j.balance.reservedUsdc ?? 0).toFixed(2),
+        })
+      } catch { /* silent */ }
+    }
+    load()
+    const t = setInterval(load, 15000)
+    const onFocus = () => load()
+    window.addEventListener("focus", onFocus)
+    return () => { dead = true; clearInterval(t); window.removeEventListener("focus", onFocus) }
+  }, [apiKey, baseUrl])
+  if (!bal) return null
+  return (
+    <span className="hidden sm:flex items-center gap-1.5 text-[11.5px] font-mono text-white/50 px-2 py-1 rounded-md border border-white/[0.06]" title="buyer balance: available / in sessions">
+      <span className="text-[#ff9a3c]/90">${bal.avail}</span> avail · <span className="text-white/70">${bal.sess}</span> sess
+    </span>
+  )
+}
+
 interface Props {
   onOpenApiKey: () => void
   onOpenMobileSidebar?: () => void
@@ -49,7 +83,20 @@ export function Header({ onOpenApiKey, onOpenMobileSidebar }: Props) {
   const modelType = modelTypeMap[activeTab] || 'text'
   const { data: models } = useModels(hasOwnSelector ? undefined : modelType)
   const currentModel = hasOwnSelector ? '' : (selectedModels[activeTab] || models?.[0]?.id || '')
-  const modelOptions = hasOwnSelector ? [] : (models?.map((m) => ({ value: m.id, label: m.model_spec?.name || m.id })) ?? [])
+  // компактно: $5 / $0.5 / $0.34 — без хвостовых нулей, чтобы влезало в одну строку
+  const fmt2 = (v: any) => '$' + parseFloat(Number(v).toFixed(2))
+  const priceSub = (m: any): string | undefined => {
+    const p = m?.pricing
+    if (!p) return undefined
+    if (p.perImage != null) return `${fmt2(p.perImage)} per image`
+    if (p.input != null && p.output != null) {
+      const parts = [`in ${fmt2(p.input)}`, `out ${fmt2(p.output)}`]
+      if (p.cached != null) parts.push(`cached ${fmt2(p.cached)}`)
+      return parts.join(' · ')
+    }
+    return undefined
+  }
+  const modelOptions = hasOwnSelector ? [] : (models?.map((m) => ({ value: m.id, label: m.model_spec?.name || m.id, sub: priceSub(m) })) ?? [])
 
   return (
     <header className="flex items-center gap-3 h-14 px-3 border-b border-white/[0.05] bg-[#0a0a0c] shrink-0">
@@ -87,13 +134,14 @@ export function Header({ onOpenApiKey, onOpenMobileSidebar }: Props) {
             options={modelOptions}
             searchable
             placeholder="Select model…"
-            className="w-44 sm:w-64"
+            className="w-[191px] sm:w-[271px]"
           />
         </>
       )}
 
       <div className="flex-1" />
 
+      <BalanceChip />
       <button
         onClick={onOpenApiKey}
         aria-label={apiKey ? 'API key connected, manage' : 'Connect API key'}

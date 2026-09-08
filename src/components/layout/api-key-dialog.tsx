@@ -102,21 +102,21 @@ export function ApiKeyDialog({ open, onClose }: { open: boolean; onClose: () => 
               type="password"
               value={value}
               onChange={(e) => setValue(e.target.value)}
-              placeholder="sk-..."
+              placeholder="apx_…"
               className="w-full bg-[#0a0a0a] border border-white/[0.1] rounded-lg px-3.5 py-2.5 text-[16px] text-white outline-none focus:border-white/[0.25] transition-colors font-mono placeholder:text-white/25"
               autoFocus
               autoComplete="off"
               onKeyDown={(e) => { if (e.key === 'Enter' && !remember) handleConnect() }}
             />
             <p className="text-[13px] text-white/40 mt-2">
-              Get a key at{' '}
+              Get a key in the{' '}
               <a
-                href="https://venice.ai/settings/api"
+                href="https://next.apex-ant.net/cabinet.html"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white/65 hover:text-white underline underline-offset-2"
               >
-                venice.ai/settings/api
+                ▲ apex ant cabinet
               </a>
               .
             </p>

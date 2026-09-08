@@ -4,13 +4,15 @@ import { cn } from '../../lib/utils'
 interface SelectProps {
   value: string
   onChange: (value: string) => void
-  options: Array<{ value: string; label: string }>
+  options: Array<{ value: string; label: string; sub?: string }>
   placeholder?: string
   searchable?: boolean
+  searchPlaceholder?: string
+  dropdownClassName?: string
   className?: string
 }
 
-export function Select({ value, onChange, options, placeholder = 'Select...', searchable = false, className }: SelectProps) {
+export function Select({ value, onChange, options, placeholder = 'Select...', searchable = false, searchPlaceholder = 'Search...', dropdownClassName, className }: SelectProps) {
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState('')
   const ref = useRef<HTMLDivElement>(null)
@@ -29,7 +31,9 @@ export function Select({ value, onChange, options, placeholder = 'Select...', se
   }, [open, searchable])
 
   const filtered = useMemo(() =>
-    search ? options.filter((o) => o.label.toLowerCase().includes(search.toLowerCase())) : options,
+    search
+      ? options.filter((o) => (o.label + ' ' + (o.sub ?? '')).toLowerCase().includes(search.toLowerCase()))
+      : options,
     [options, search],
   )
 
@@ -52,14 +56,14 @@ export function Select({ value, onChange, options, placeholder = 'Select...', se
       </button>
 
       {open && (
-        <div className="absolute z-50 w-full mt-0.5 bg-[#0e0e0e] border border-white/[0.08] rounded-lg shadow-2xl shadow-black/50 animate-scale-in overflow-hidden">
+        <div className={cn("absolute z-50 mt-0.5 bg-[#0e0e0e] border border-white/[0.08] rounded-lg shadow-2xl shadow-black/50 animate-scale-in overflow-hidden", dropdownClassName ?? "w-[calc(100%+15px)]")}>
           {searchable && (
             <div className="p-1 border-b border-white/[0.04]">
               <input
                 ref={inputRef}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search..."
+                placeholder={searchPlaceholder}
                 className="w-full bg-white/[0.03] rounded px-2 py-1 text-[15px] text-white/70 outline-none placeholder:text-white/12"
               />
             </div>
@@ -73,13 +77,20 @@ export function Select({ value, onChange, options, placeholder = 'Select...', se
                   key={o.value}
                   onClick={() => { onChange(o.value); setOpen(false) }}
                   className={cn(
-                    'w-full text-left px-3 py-[6px] text-[15px] rounded transition-colors',
+                    'w-full text-left px-3 py-[6px] rounded transition-colors',
                     o.value === value
-                      ? 'bg-white/[0.07] text-white/80'
-                      : 'text-white/40 hover:bg-white/[0.04] hover:text-white/70',
+                      ? 'bg-white/[0.07]'
+                      : 'hover:bg-white/[0.04]',
                   )}
                 >
-                  {o.label}
+                  <span className={cn('block text-[14px] leading-tight', o.value === value ? 'text-white/80' : 'text-white/50')}>
+                    {o.label}
+                  </span>
+                  {o.sub && (
+                    <span className="block text-[11px] leading-tight mt-[2px] text-white/25 font-mono whitespace-nowrap">
+                      {o.sub}
+                    </span>
+                  )}
                 </button>
               ))
             )}

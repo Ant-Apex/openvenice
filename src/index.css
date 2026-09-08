@@ -22,8 +22,8 @@
   --color-text-quaternary: rgba(255, 255, 255, 0.28);
 
   /* Accent — Venice teal, used sparingly for status, focus rings, primary CTAs */
-  --color-accent: #6ee7d3;
-  --color-accent-soft: rgba(110, 231, 211, 0.16);
+  --color-accent: #ff9a3c;
+  --color-accent-soft: rgba(255, 154, 60, 0.16);
 }
 
 html { color-scheme: dark; }
