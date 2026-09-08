@@ -1,11 +1,12 @@
 # openvenice → Apex Ant frontend
+
 - Build: `docker build --build-arg VITE_VENICE_BASE_URL=https://api.apex-ant.net/api/v1 -t apex-app .`
-  (стейдж уже в .env.production: api.next.apex-ant.net)
-- Юзер вставляет ключ `apx_live_…` в UI (Settings → API key); ключ живёт в localStorage
-  его браузера, бэкенда у фронта нет — сторит вся privacy-история.
-- TODO при деплое: CORS на gateway (allowlist app.apex-ant.net), ключ-плейсхолдер-подсказка
-  «apx_live_…», модельный каталог подтянуть с нашего /v1/models (openvenice дёргает
-  {base}/models — gateway должен отдавать наш список в Venice-совместимом формате —
-  ПРОВЕРИТЬ соответствие полей, Venice API shape vs OpenAI shape различаются!
-  Venice /models возвращает свою схему; возможно нужен адаптер на gateway).
-- НЕ деплоить в прод до TEE (декрет). Стейдж: app.next.apex-ant.net.
+  (staging is already set in .env.production: api.next.apex-ant.net)
+- The user pastes an `apx_live_…` key in the UI (Settings → API key); the key lives in
+  the browser's localStorage, the frontend has no backend — that is the whole privacy story.
+- Deploy TODO: CORS allowlist on the gateway (app.apex-ant.net), key placeholder hint
+  "apx_live_…", model catalog served from our /v1/models (openvenice calls
+  {base}/models — the gateway must return our list in a Venice-compatible shape —
+  VERIFY field mapping, Venice API shape vs OpenAI shape differ!
+  Venice /models returns its own schema; a gateway-side adapter may be needed).
+- Do NOT deploy to prod before TEE (decree). Staging: app.next.apex-ant.net.
