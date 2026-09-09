@@ -56,7 +56,7 @@ export function Select({ value, onChange, options, placeholder = 'Select...', se
       </button>
 
       {open && (
-        <div className={cn("absolute z-50 mt-0.5 bg-[#0e0e0e] border border-white/[0.08] rounded-lg shadow-2xl shadow-black/50 animate-scale-in overflow-hidden", dropdownClassName ?? "w-[calc(100%+15px)]")}>
+        <div className={cn("absolute z-50 mt-0.5 bg-[#0e0e0e] border border-white/[0.08] rounded-lg shadow-2xl shadow-black/50 animate-scale-in overflow-hidden", dropdownClassName ?? "w-[calc(100%+30px)]")}>
           {searchable && (
             <div className="p-1 border-b border-white/[0.04]">
               <input
