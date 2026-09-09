@@ -111,7 +111,7 @@ export function ApiKeyDialog({ open, onClose }: { open: boolean; onClose: () => 
             <p className="text-[13px] text-white/40 mt-2">
               Get a key in the{' '}
               <a
-                href="https://next.apex-ant.net/cabinet.html"
+                href="/cabinet.html"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white/65 hover:text-white underline underline-offset-2"
