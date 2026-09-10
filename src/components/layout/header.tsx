@@ -96,8 +96,7 @@ export function Header({ onOpenApiKey, onOpenMobileSidebar }: Props) {
     if (p.perImage != null) return `${fmt2(p.perImage)} per image`
     if (p.input != null && p.output != null) {
       const parts = [`in ${fmt2(p.input)}`, `out ${fmt2(p.output)}`]
-      const narrow = typeof window !== 'undefined' && window.matchMedia('(max-width: 640px)').matches
-      if (p.cached != null && !narrow) parts.push(`cached ${fmt2(p.cached)}`)
+      if (p.cached != null) parts.push(`cached ${fmt2(p.cached)}`)
       return parts.join(' · ')
     }
     return undefined
