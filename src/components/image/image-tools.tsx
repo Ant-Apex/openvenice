@@ -62,7 +62,7 @@ export function ImageTools() {
       onError: (err: unknown) => toast.fromError(err, 'Image tool failed'),
     }
     if (tool === 'edit') {
-      editMutation.mutate({ image: imageData, prompt: editPrompt.trim(), modelId: editModel }, opts)
+      editMutation.mutate({ image: imageData, prompt: editPrompt.trim(), model: editModel, modelId: editModel } as any, opts)
     } else if (tool === 'upscale') {
       upscaleMutation.mutate(
         { image: imageData, scale, enhance, enhanceCreativity: enhance ? enhanceCreativity : undefined, enhancePrompt: enhance && enhancePrompt.trim() ? enhancePrompt.trim() : undefined },
