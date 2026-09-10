@@ -85,8 +85,8 @@ export function ImageTools() {
   }
 
   return (
-    <div className="flex h-full">
-      <div className="w-96 border-r border-white/[0.06] p-6 flex flex-col gap-4 overflow-y-auto shrink-0">
+    <div className="flex flex-col md:flex-row h-full overflow-y-auto md:overflow-visible">
+      <div className="w-full md:w-96 border-b md:border-b-0 md:border-r border-white/[0.06] p-4 md:p-6 flex flex-col gap-4 md:overflow-y-auto shrink-0">
         {/* Tool selector */}
         <div className="flex gap-px bg-white/[0.02] rounded-lg p-0.5 border border-white/[0.04]">
           {([['edit', 'Edit']] as const).map(([id, label]) => (
@@ -183,7 +183,7 @@ export function ImageTools() {
         {error && <ErrorText>{error.message}</ErrorText>}
       </div>
 
-      <div className="flex-1 p-6 overflow-y-auto flex flex-col min-w-0">
+      <div className="flex-1 p-4 md:p-6 md:overflow-y-auto flex flex-col min-w-0">
         {resultUrl ? (
           <div className="animate-fade-in flex flex-col gap-3">
             <div className="flex items-center justify-between">
