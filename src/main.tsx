@@ -1,7 +1,5 @@
 import { StrictMode } from 'react'
-import { console.info('apex chat build 2026-09-10d')
-
-createRoot } from 'react-dom/client'
+import { createRoot } from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import './index.css'
 import { App } from './app'
@@ -21,6 +19,7 @@ window.addEventListener('unhandledrejection', (e) => {
   console.error('[unhandledrejection]', e.reason)
 })
 
+console.info('apex chat build 2026-09-10d')
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ErrorBoundary>
