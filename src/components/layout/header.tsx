@@ -126,7 +126,7 @@ export function Header({ onOpenApiKey, onOpenMobileSidebar }: Props) {
         </svg>
       </button>
 
-      <div className="flex flex-col min-w-0">
+      <div className="flex flex-col min-w-0 -ml-1.5 sm:ml-0">
         <span className="text-[14px] font-semibold text-white/95 leading-none">{tabLabels[activeTab]}</span>
         <span className="text-[11px] text-white/40 mt-0.5 leading-none truncate hidden sm:block">{tabSubtitles[activeTab]}</span>
       </div>
@@ -140,7 +140,7 @@ export function Header({ onOpenApiKey, onOpenMobileSidebar }: Props) {
             options={modelOptions}
             searchable
             placeholder="Select model…"
-            className="w-[206px] sm:w-[286px]"
+            className="w-[206px] sm:w-[286px] ml-1 sm:ml-0"
           />
         </>
       )}

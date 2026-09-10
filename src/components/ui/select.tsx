@@ -68,7 +68,7 @@ export function Select({ value, onChange, options, placeholder = 'Select...', se
               />
             </div>
           )}
-          <div className="max-h-60 overflow-y-auto p-0.5">
+          <div className="max-h-[50vh] sm:max-h-60 overflow-y-auto overscroll-contain touch-pan-y p-0.5" style={{ WebkitOverflowScrolling: "touch" }}>
             {filtered.length === 0 ? (
               <div className="px-2.5 py-2.5 text-[14px] text-white/15 text-center">No results</div>
             ) : (
