@@ -31,14 +31,12 @@ export function AgentModelPicker({ value, onChange }: Props) {
 
   const grouped = useMemo(() => {
     const tiers: Array<{ label: string; items: AgentModel[] }> = [
-      { label: 'Recommended for agents', items: [] },
       { label: 'Capable', items: [] },
       { label: 'Other', items: [] },
     ]
     for (const m of filtered) {
-      if (m.tier === 0) tiers[0].items.push(m)
-      else if (m.tier === 1 || m.tier === 2) tiers[1].items.push(m)
-      else tiers[2].items.push(m)
+      if (m.tier <= 2) tiers[0].items.push(m)
+      else tiers[1].items.push(m)
     }
     return tiers.filter((g) => g.items.length > 0)
   }, [filtered])
@@ -47,7 +45,7 @@ export function AgentModelPicker({ value, onChange }: Props) {
   const label = isLoading ? 'Loading…' : current?.name || value || 'Pick agent model'
 
   return (
-    <div ref={ref} className="relative w-40 shrink-0">
+    <div ref={ref} className="relative w-32 sm:w-40 shrink-0">
       <button
         type="button"
         onClick={() => setOpen(!open)}
@@ -60,9 +58,6 @@ export function AgentModelPicker({ value, onChange }: Props) {
       >
         <span className="flex items-center gap-1.5 min-w-0 flex-1">
           <span className="truncate text-white/85">{label}</span>
-          {current?.recommended && (
-            <span className="shrink-0 text-[10px] px-1 py-px rounded bg-emerald-400/15 text-emerald-300 font-medium uppercase tracking-wider">Rec</span>
-          )}
         </span>
         <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
           className={cn('shrink-0 text-white/40 transition-transform duration-150', open && 'rotate-180')}>
@@ -71,7 +66,7 @@ export function AgentModelPicker({ value, onChange }: Props) {
       </button>
 
       {open && (
-        <div className="absolute top-full right-0 mt-1 w-[340px] z-50 bg-[#101015] border border-white/[0.1] rounded-lg shadow-2xl shadow-black/70 animate-scale-in overflow-hidden">
+        <div className="absolute top-full right-0 mt-1 w-[min(340px,calc(100vw-24px))] z-50 bg-[#101015] border border-white/[0.1] rounded-lg shadow-2xl shadow-black/70 animate-scale-in overflow-hidden">
           <div className="px-2 py-2 border-b border-white/[0.06] flex items-center gap-2">
             <input
               autoFocus
@@ -116,7 +111,6 @@ export function AgentModelPicker({ value, onChange }: Props) {
                       )}
                     </div>
                     <div className="flex flex-wrap gap-1 mt-1">
-                      {m.recommended && <Badge tone="emerald">Recommended</Badge>}
                       {m.capabilities.supportsResponseSchema && <Badge tone="sky">JSON</Badge>}
                       {m.capabilities.supportsFunctionCalling && <Badge tone="violet">Tools</Badge>}
                       {m.reasoning && <Badge tone="amber">Reasoning</Badge>}

@@ -110,8 +110,8 @@ export function PlaygroundView() {
   }
 
   return (
-    <div className="flex h-full">
-      <div className="w-[420px] shrink-0 border-r border-white/[0.06] flex flex-col">
+    <div className="flex flex-col md:flex-row h-full">
+      <div className="w-full md:w-[420px] shrink-0 border-b md:border-b-0 md:border-r border-white/[0.06] flex flex-col flex-1 min-h-0 md:flex-none">
         <div className="flex items-center justify-between gap-2 px-3 h-11 border-b border-white/[0.06] bg-[#0a0a0a] shrink-0">
           <div className="flex items-center gap-2 min-w-0">
             <span className="text-[14px] font-medium text-white/65 shrink-0">Playground</span>
@@ -133,7 +133,7 @@ export function PlaygroundView() {
         </div>
       </div>
 
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="hidden md:flex flex-1 flex-col min-w-0">
         <div className="flex items-center gap-2 px-3 h-11 border-b border-white/[0.06] bg-[#0a0a0a] shrink-0">
           <div className="flex items-center gap-2 min-w-0 flex-1">
             {linkedWorkflow ? (

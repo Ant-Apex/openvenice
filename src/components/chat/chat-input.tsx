@@ -86,7 +86,7 @@ export function ChatInput({ onSend, onStop, isStreaming, disabled }: ChatInputPr
                 }
               }
             }}
-            placeholder={disabled ? 'Connect an API key to start…' : dragOver ? 'Drop image to attach' : 'Ask anything — Enter to send, Shift+Enter for newline'}
+            placeholder={disabled ? 'Connect an API key to start…' : dragOver ? 'Drop image to attach' : (typeof window !== 'undefined' && window.matchMedia('(max-width: 640px)').matches) ? 'Ask anything' : 'Ask anything · Enter to send, Shift+Enter for newline'}
             rows={1}
             aria-label="Message input"
             className="w-full bg-transparent px-5 pt-4 pb-1 text-[16px] text-white outline-none resize-none max-h-48 placeholder:text-white/30 leading-relaxed"
