@@ -17,6 +17,8 @@ export function Select({ value, onChange, options, placeholder = 'Select...', se
   const [search, setSearch] = useState('')
   const ref = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  // на телефоне дропдаун рисуем bottom-sheet'ом (вложенный скролл на iOS ненадёжен)
+  const isMobile = useMemo(() => typeof window !== 'undefined' && window.matchMedia('(max-width: 640px)').matches, [])
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -27,8 +29,8 @@ export function Select({ value, onChange, options, placeholder = 'Select...', se
   }, [])
 
   useEffect(() => {
-    if (open && searchable) inputRef.current?.focus()
-  }, [open, searchable])
+    if (open && searchable && !isMobile) inputRef.current?.focus()
+  }, [open, searchable, isMobile])
 
   const filtered = useMemo(() =>
     search
@@ -55,8 +57,14 @@ export function Select({ value, onChange, options, placeholder = 'Select...', se
         </svg>
       </button>
 
+      {open && isMobile && (
+        <div className="fixed inset-0 z-[60] bg-black/50" onClick={() => setOpen(false)} />
+      )}
       {open && (
-        <div className={cn("absolute z-50 mt-0.5 bg-[#0e0e0e] border border-white/[0.08] rounded-lg shadow-2xl shadow-black/50 animate-scale-in overflow-hidden", dropdownClassName ?? "w-[calc(100%+30px)]")}>
+        <div className={isMobile
+          ? "fixed inset-x-3 z-[70] bg-[#0e0e0e] border border-white/[0.12] rounded-xl shadow-2xl shadow-black/70 animate-scale-in overflow-hidden"
+          : cn("absolute z-50 mt-0.5 bg-[#0e0e0e] border border-white/[0.08] rounded-lg shadow-2xl shadow-black/50 animate-scale-in overflow-hidden", dropdownClassName ?? "w-[calc(100%+30px)]")}
+          style={isMobile ? { bottom: "max(12px, env(safe-area-inset-bottom))" } : undefined}>
           {searchable && (
             <div className="p-1 border-b border-white/[0.04]">
               <input
@@ -68,7 +76,7 @@ export function Select({ value, onChange, options, placeholder = 'Select...', se
               />
             </div>
           )}
-          <div className="max-h-[50vh] sm:max-h-60 overflow-y-auto overscroll-contain touch-pan-y p-0.5" style={{ WebkitOverflowScrolling: "touch" }}>
+          <div className={isMobile ? "max-h-[52vh] overflow-y-auto overscroll-contain p-1" : "max-h-60 overflow-y-auto p-0.5"} style={{ WebkitOverflowScrolling: "touch" }}>
             {filtered.length === 0 ? (
               <div className="px-2.5 py-2.5 text-[14px] text-white/15 text-center">No results</div>
             ) : (
@@ -77,7 +85,7 @@ export function Select({ value, onChange, options, placeholder = 'Select...', se
                   key={o.value}
                   onClick={() => { onChange(o.value); setOpen(false) }}
                   className={cn(
-                    'w-full text-left px-3 py-[6px] rounded transition-colors',
+                    isMobile ? 'w-full text-left px-3.5 py-2.5 rounded-lg transition-colors' : 'w-full text-left px-3 py-[6px] rounded transition-colors',
                     o.value === value
                       ? 'bg-white/[0.07]'
                       : 'hover:bg-white/[0.04]',
