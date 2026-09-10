@@ -125,7 +125,8 @@ export function Header({ onOpenApiKey, onOpenMobileSidebar }: Props) {
         </svg>
       </button>
 
-      <div className="flex flex-col min-w-0 -ml-1.5 sm:ml-0">
+      {/* мобиле: заголовок прячем — дублирует сайдбар, место дороже (длинные имена моделей) */}
+      <div className="hidden sm:flex flex-col min-w-0 sm:ml-0">
         <span className="text-[14px] font-semibold text-white/95 leading-none">{tabLabels[activeTab]}</span>
         <span className="text-[11px] text-white/40 mt-0.5 leading-none truncate hidden sm:block">{tabSubtitles[activeTab]}</span>
       </div>
