@@ -8,7 +8,7 @@ export function VeniceParams() {
 
   return (
     <div className="px-4 py-1.5">
-      <div className="flex items-center gap-1">
+      <div className="flex flex-wrap items-center gap-1 gap-y-1.5">
         <SearchPill
           value={veniceParams.enable_web_search || 'off'}
           onChange={(v) => setVeniceParams({ enable_web_search: v })}
@@ -27,7 +27,7 @@ export function VeniceParams() {
           <button
             onClick={() => setShowSettings(!showSettings)}
             className={cn(
-              'flex items-center gap-1 text-[13px] font-medium px-2 py-[2px] rounded-full transition-colors duration-100',
+              'flex items-center gap-1 whitespace-nowrap shrink-0 text-[13px] font-medium px-2.5 py-1 rounded-full transition-colors duration-100',
               showSettings ? 'bg-white/90 text-black' : 'bg-white/[0.03] text-white/18 hover:text-white/35 hover:bg-white/[0.05]',
             )}
           >
@@ -88,7 +88,7 @@ function Pill({ label, active, onClick }: { label: string; active: boolean; onCl
     <button
       onClick={onClick}
       className={cn(
-        'text-[13px] font-medium px-2 py-[2px] rounded-full transition-colors duration-100',
+        'text-[13px] font-medium px-2.5 py-1 whitespace-nowrap shrink-0 rounded-full transition-colors duration-100',
         active
           ? 'bg-white/90 text-black'
           : 'bg-white/[0.03] text-white/18 hover:text-white/35 hover:bg-white/[0.05]',
@@ -112,7 +112,7 @@ function SearchPill({ value, onChange }: { value: string; onChange: (v: SearchMo
     <button
       onClick={next}
       className={cn(
-        'text-[13px] font-medium px-2 py-[2px] rounded-full transition-colors duration-100',
+        'text-[13px] font-medium px-2.5 py-1 whitespace-nowrap shrink-0 rounded-full transition-colors duration-100',
         active
           ? 'bg-white/90 text-black'
           : 'bg-white/[0.03] text-white/18 hover:text-white/35 hover:bg-white/[0.05]',
